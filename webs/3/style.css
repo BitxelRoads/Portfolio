@@ -1,0 +1,347 @@
+/* --- Variables y Estilos Globales --- */
+:root {
+    --color-azul-oscuro: #0a192f;
+    --color-azul-medio: #003d7a;
+    --color-dorado: #D4AF37;
+    --color-dorado-claro: #f0e1a6;
+    --color-texto-claro: #ccd6f6;
+    --color-texto-blanco: #ffffff;
+
+    --font-principal: 'Montserrat', sans-serif;
+    --font-titulos: 'Playfair Display', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-principal);
+    background-color: var(--color-azul-oscuro);
+    color: var(--color-texto-claro);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- Animación de Desvanecimiento (Fade-in) --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Barra de Navegación --- */
+.header {
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-azul-medio);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.nav-logo img {
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo img:hover {
+    transform: scale(1.05);
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--color-texto-claro);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-dorado);
+    transition: width 0.4s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: var(--color-dorado);
+}
+
+/* --- Botones --- */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-dorado);
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary, .nav-link.btn {
+    background-color: var(--color-dorado);
+    color: var(--color-azul-oscuro);
+}
+
+.btn-primary:hover, .nav-link.btn:hover {
+    background-color: transparent;
+    color: var(--color-dorado);
+}
+
+/* --- Sección Hero --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    background: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.9)), url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+}
+
+.hero-content h1 {
+    font-family: var(--font-titulos);
+    font-size: 3.5rem;
+    color: var(--color-texto-blanco);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Animación del texto del Hero */
+.animate-hero {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+.animate-hero:nth-child(1) { animation-delay: 0.2s; }
+.animate-hero:nth-child(2) { animation-delay: 0.4s; }
+.animate-hero:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Títulos de Sección --- */
+section {
+    padding: 6rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4.5rem;
+}
+
+.section-title h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--color-texto-blanco);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-dorado);
+}
+
+/* --- Sección Nosotros --- */
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    align-items: center;
+}
+
+.about-us h3 {
+    color: var(--color-dorado);
+    margin-bottom: 1rem;
+    font-family: var(--font-titulos);
+    font-size: 1.5rem;
+}
+
+/* --- Sección Servicios --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--color-azul-medio);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--color-dorado);
+    box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+}
+
+.card h4 {
+    font-family: var(--font-titulos);
+    color: var(--color-dorado-claro);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Sección Visión --- */
+.vision-section {
+    background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.95)), url('https://www.transparenttextures.com/patterns/subtle-stripes.png');
+    text-align: center;
+}
+
+.vision-content h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--color-dorado);
+}
+
+.vision-content p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 1rem auto 0;
+    font-style: italic;
+}
+
+/* --- Sección Contacto --- */
+.contact-form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-azul-medio);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: var(--color-texto-claro);
+    font-family: var(--font-principal);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-dorado);
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.contact-form .btn {
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: #061221;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--color-azul-medio);
+}
+.footer-logo {
+    height: 60px;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .navbar { flex-direction: column; gap: 1rem; }
+    .nav-menu { flex-direction: column; gap: 1rem; padding-top: 1rem; }
+    .hero-content h1 { font-size: 2.5rem; }
+    .about-content, .services-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================== */
+/* == AJUSTES DE ESPACIADO PERSONALIZADOS == */
+/* ============================================== */
+
+/* 1. Crea el espacio DESPUÉS del título principal y ANTES de "Nuestra Misión" */
+#nosotros .section-title {
+    margin-bottom: 6rem; /* Aumenta el espacio debajo del título "Somos tu Aliado Estratégico" */
+}
+
+/* 2. Crea el espacio DESPUÉS de "Nuestra Filosofía" y ANTES de "Nuestros Productos" */
+#servicios {
+    padding-top: 0; /* Anulamos el espaciado superior de esta sección... */
+}
+#nosotros {
+    padding-bottom: 10rem; /* ...y en su lugar, añadimos un gran espaciado al final de la sección anterior. */
+}

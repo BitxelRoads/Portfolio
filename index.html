@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portfolio - Windows XP</title>
+    
+    <!-- Librería CSS que nos da el estilo base de Windows XP -->
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    
+    <!-- Nuestro archivo de estilos personalizados -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+</head>
+<body>
+
+    <div id="desktop">
+        <!-- ICONOS DEL ESCRITORIO -->
+        <div class="desktop-icon" data-opens="window-proyectos" data-title="Mis Proyectos">
+            <img src="icons/my_computer.png" alt="Icono de PC">
+            <span>Mis Proyectos</span>
+        </div>
+
+        <div class="desktop-icon" data-opens="window-habilidades" data-title="Mis Habilidades">
+            <img src="icons/my_documents.png" alt="Icono de Documentos">
+            <span>Mis Habilidades</span>
+        </div>
+
+        <div class="desktop-icon" data-opens="window-sobre-mi" data-title="Sobre Mí">
+            <img src="icons/notepad.png" alt="Icono de Bloc de Notas">
+            <span>Sobre Mí</span>
+        </div>
+        
+        <div class="desktop-icon" data-opens="window-navegador" data-title="Navegador Web">
+            <img src="icons/internet_explorer.png" alt="Icono de Navegador">
+            <span>Mis Webs</span>
+        </div>
+
+        <div class="desktop-icon" data-opens="window-buscaminas" data-title="Buscaminas">
+            <img src="icons/buscaminas.png" alt="Icono de Buscaminas">
+            <span>Buscaminas</span>
+        </div>
+        
+        <!-- VENTANAS PREDEFINIDAS -->
+
+        <div class="window" id="window-proyectos" style="width: 500px; top: 100px; left: 150px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Mis Proyectos</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <p>Estos son algunos de mis trabajos. Haz clic en uno para verlo en acción.</p>
+                <div class="project-icons-container">
+                    <div class="project-icon" 
+                         data-url="https://farcaster.xyz/miniapps/R9Pq0Js5p4YT/bitxelapp" 
+                         data-title="BitxelApp" 
+                         data-description="BitxelApp es una App Web3 desplegada como Mini App nativa de Farcaster en la blockchain de Base, es participante en los Onchain Summer Awards en Devfolio. Contiene un juego inventado por mi llamado Bitxel Roads TCG, el cual es un Juego de Cartas Coleccionables con recompensas exclusivas para poseedores de nuestro NFT oficial. Los jugadores compiten en un modo Aventura PVE, progresando a través de un sistema RPG con niveles, equipamiento personalizable y Facciones de clase que otorgan bonificaciones estratégicas. Con secciones únicas como Wisdom Races, un modo Learn-to-Earn que recompensa el conocimiento sobre el ecosistema Web3. También contamos con secciones de gambling y recompensas en USDC y nuestro token nativo $BTRD todo respaldado en blockchain. Stack: React, Node.js (Serverless), PostgreSQL, Wagmi/Viem, Alchemy. <a href='https://youtu.be/IdeT4IFiSX8?si=LzmP54g_tughQM7k' target='_blank' rel='noopener noreferrer'>Ver Demo en YouTube</a>">
+                        <img src="icons/app_icon_1.png" alt="Icono de App 1">
+                        <span>BitxelApp</span>
+                    </div>
+                    <div class="project-icon" 
+                         data-url="https://izzypizi.netlify.app" 
+                         data-title="Izzy CRM" 
+                         data-description="Izzy CRM es una aplicación web integral diseñada para optimizar la gestión de restaurantes. Funciona como un copiloto inteligente, centralizando reservas, clientes y órdenes, y ofreciendo insights de negocio a través de un asistente de IA conversacional. Este proyecto fue construido desde cero con un stack moderno enfocado en el rendimiento y la escalabilidad, utilizando React, TypeScript y Vite para el frontend. La interfaz fue creada con Tailwind CSS y shadcn/ui, mientras que la gestión de datos se maneja con TanStack Query sobre un backend pragmático en Airtable y n8n.io para la orquestación de la IA (GPT/Gemini). <a href='https://synappsis.xyz/#crm' target='_blank' rel='noopener noreferrer'>Ver Demo</a>">
+                        <img src="icons/app_icon_2.png" alt="Icono de App 2" class="wide-logo">
+                        <span>Izzy CRM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-navegador" style="width: 100%; height: 100%; top: 0; left: 0;">
+            <div class="title-bar">
+                <div class="title-bar-text">Navegador Web</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body browser-body">
+                <div class="tab-bar">
+                    <button class="tab active" data-target="tab1">Bitxel Roads</button>
+                    <button class="tab" data-target="tab2">Synappsis</button>
+                    <button class="tab" data-target="tab3">Servicobranzas</button>
+                </div>
+                <div class="tab-content">
+                    <div id="tab1" class="tab-pane active"><iframe src="https://bitxelroads.xyz/" frameborder="0"></iframe></div>
+                    <div id="tab2" class="tab-pane"><iframe src="https://synappsis.xyz/" frameborder="0"></iframe></div>
+                    <div id="tab3" class="tab-pane"><iframe src="webs/3/index.html" frameborder="0"></iframe></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-habilidades" style="width: 450px; top: 180px; left: 400px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Mis Habilidades</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <p>Estos son algunos de mis conocimientos empíricos y técnicos:</p>
+                <div class="skills-container">
+                    <div class="skill"><span class="skill-name">React</span><div class="skill-bar-container"><div class="skill-bar" style="width: 64%;">64%</div></div></div>
+                    <div class="skill"><span class="skill-name">Node.js</span><div class="skill-bar-container"><div class="skill-bar" style="width: 60%;">60%</div></div></div>
+                    <div class="skill"><span class="skill-name">Tailwind CSS</span><div class="skill-bar-container"><div class="skill-bar" style="width: 60%;">60%</div></div></div>
+                    <div class="skill"><span class="skill-name">CSS</span><div class="skill-bar-container"><div class="skill-bar" style="width: 62%;">62%</div></div></div>
+                    <div class="skill"><span class="skill-name">HTML</span><div class="skill-bar-container"><div class="skill-bar" style="width: 67%;">67%</div></div></div>
+                    <div class="skill"><span class="skill-name">Java</span><div class="skill-bar-container"><div class="skill-bar" style="width: 60%;">60%</div></div></div>
+                    <div class="skill"><span class="skill-name">Python</span><div class="skill-bar-container"><div class="skill-bar" style="width: 60%;">60%</div></div></div>
+                    <div class="skill"><span class="skill-name">Automatizaciones y n8n</span><div class="skill-bar-container"><div class="skill-bar" style="width: 80%;">80%</div></div></div>
+                    <hr class="skill-separator">
+                    <div class="skill"><span class="skill-name">Inteligencia Artificial</span><div class="skill-bar-container"><div class="skill-bar special-skill" style="width: 77%;">77%</div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-sobre-mi" style="width: 750px; height: 430px; top: 50px; left: 350px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Sobre Mí!</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="about-me-content">
+                    <img src="assets/user_.jpeg" alt="Foto de Jonathan Segura" class="about-me-photo">
+                    <div class="about-me-text">Hola! Soy Jonathan Segura.
+Un desarrollador y emprendedor autodidacta con una gran dosis de creatividad. Me apasiona explorar y construir con tecnologías emergentes, especialmente integrando Inteligencia Artificial en procesos creativos y de desarrollo.
+
+Gracias a una buena gestión de tiempo puedo aprender y experimentar continuamente, perfeccionando mis habilidades mientras la vida me permita seguir creando. Tengo experiencia desarrollando automatizaciones con n8n.
+
+Linkedin: @Joalseca
+Instagram: @Js4art
+X: @Joalseca</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-buscaminas" style="width: 250px; height: 330px; top: 200px; left: 500px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Buscaminas</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize" disabled></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body iframe-container-body">
+                <iframe src="buscaminas.html" frameborder="0" style="width: 100%; height: 88%;"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ESTRUCTURA DEL MENÚ DE INICIO -->
+    <div id="start-menu">
+        <div class="start-menu-header">
+            <img src="assets/user_.jpeg" alt="User" class="user-icon">
+            <span class="username">Portfolio Jonathan Segura</span>
+        </div>
+        <div class="start-menu-body">
+            <div class="start-menu-column left">
+                <ul>
+                    <li class="menu-item"><img src="icons/internet_explorer.png"> <span>Internet</span></li>
+                    <li class="menu-item"><img src="icons/buscaminas.png"> <span>Buscaminas</span></li>
+                </ul>
+                <hr class="menu-separator">
+                <ul>
+                    <li class="menu-item"><img src="icons/my_computer.png"> <span>Mis Proyectos</span></li>
+                    <li class="menu-item"><img src="icons/my_documents.png"> <span>Mis Habilidades</span></li>
+                    <li class="menu-item"><img src="icons/notepad.png"> <span>Sobre Mí</span></li>
+                </ul>
+            </div>
+            <div class="start-menu-column right">
+                <ul>
+                    <li class="menu-item"><img src="icons/control_panel.png"> <span>Contacto</span></li>
+                    <li class="menu-item"><img src="icons/help.png"> <span>Ayuda y Soporte</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="start-menu-footer">
+            <div class="footer-button"><img src="icons/log_off.png"> <span>Log Off</span></div>
+            <div class="footer-button"><img src="icons/turn_off.png"> <span>Turn Off Computer</span></div>
+        </div>
+    </div>
+    
+    <!-- ESTRUCTURA DE LA BARRA DE TAREAS -->
+    <div id="taskbar">
+        <a href="#" id="start-button"></a>
+        <div id="taskbar-tabs"></div>
+        <div id="taskbar-clock"></div>
+    </div>
+    
+    <!-- Librerías de JavaScript para la interactividad -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <!-- Nuestro archivo de JavaScript -->
+    <script src="main.js"></script>
+
+</body>
+</html>

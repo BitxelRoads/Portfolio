@@ -1,0 +1,306 @@
+/* Importar la fuente original de Windows XP */
+@font-face {
+    font-family: 'Tahoma';
+    src: url('https://fonts.gstatic.com/s/tahoma/v11/XRXV3I6Li01BKofINeaB.woff2') format('woff2');
+}
+
+body {
+    font-family: 'Tahoma', sans-serif;
+    background: url('assets/bliss.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    margin: 0;
+    user-select: none; /* Evita que el texto se seleccione al arrastrar */
+}
+
+#desktop {
+    width: 100vw;
+    height: calc(100vh - 30px); /* Restamos el alto de la barra de tareas */
+    position: relative;
+    padding: 0px;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    margin: 15px;
+    text-align: center;
+    float: left; /* Para alinear los iconos en el escritorio */
+    cursor: pointer;
+}
+
+.desktop-icon img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+}
+
+.desktop-icon span {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    padding: 2px;
+}
+
+/* Ocultar las ventanas por defecto */
+.window {
+    display: none;
+    position: absolute !important;
+    transition: transform 0.3s ease-in, opacity 0.25s ease-in;
+    transform-origin: center;
+}
+
+/* Estilo para la ventana activa */
+.window.active {
+    z-index: 100 !important;
+}
+
+.window.active .title-bar {
+    background: linear-gradient(180deg, #0055e7, #0046d5 8%, #003cc2 15%, #003cc2 89%, #004ff1 95%, #0063ff);
+}
+
+.window.active .title-bar-text {
+    color: white;
+}
+
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(180deg, #1e57e5, #2465f5 5%, #2364f3 12%, #2566f8 88%, #1e5aeb 94%, #184dd6);
+    border-top: 1px solid #3c82f8;
+    box-shadow: inset 0 1px 0 #5da2ff;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 4px 0 0;
+    z-index: 1000;
+}
+
+#taskbar-clock {
+    background-color: #2a73f6;
+    border: 1px solid #1c52b1;
+    border-top-color: #1849a0;
+    box-shadow: inset 1px 1px 0 #67a1ff;
+    padding: 2px 10px;
+    color: white;
+    font-size: 12px;
+    height: 22px;
+    line-height: 18px;
+    align-self: center;
+}
+
+/* Estilos para el botón de inicio */
+#start-button {
+    display: block;
+    width: 130px;
+    height: 100%;
+    margin-left: -15px;
+    background-image: url('icons/start_icon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#start-button:hover {
+    filter: brightness(1.1);
+}
+
+/*  ESTILOS DEL MENÚ DE INICIO  */
+
+#start-menu {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 380px;
+    border: 1px solid #00268c;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    z-index: 2000;
+}
+
+.start-menu-header {
+    background: linear-gradient(to bottom, #1e57e5, #2465f5 5%, #2364f3 12%, #2566f8 88%, #1e5aeb 94%, #184dd6);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid white;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.start-menu-body { display: flex; }
+.start-menu-column.left { width: 60%; background-color: #ffffff; }
+.start-menu-column.right { width: 40%; background-color: #d6e8ff; border-left: 1px solid #99b9e5; }
+.start-menu-column ul { list-style: none; padding: 5px 0; margin: 0; }
+.menu-item { display: flex; align-items: center; padding: 6px 10px; cursor: pointer; font-size: 14px; }
+.menu-item:hover { background-color: #316ac5; color: white; }
+.menu-item img { width: 24px; height: 24px; margin-right: 10px; }
+.menu-separator { border: 0; border-top: 1px solid #e0e0e0; margin: 5px; }
+
+.start-menu-footer {
+    background: linear-gradient(to bottom, #1e57e5, #2465f5 5%, #2364f3 12%, #2566f8 88%, #1e5aeb 94%, #184dd6);
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid #3c82f8;
+}
+
+.footer-button { display: flex; align-items: center; color: white; margin-left: 15px; cursor: pointer; }
+.footer-button:hover { filter: brightness(1.2); }
+.footer-button img { width: 20px; height: 20px; margin-right: 5px; }
+
+
+/*    ESTILOS DE LA VENTANA "MI PC"   */
+
+.project-icons-container { display: flex; flex-wrap: wrap; padding-top: 15px; }
+.project-icon { display: flex; flex-direction: column; align-items: center; width: 90px; margin: 10px; text-align: center; cursor: pointer; }
+.project-icon img { width: 48px; height: 48px; margin-bottom: 5px; }
+.project-icon span { color: #000; font-size: 14px; padding: 2px; }
+.project-icon:hover { background-color: #e8f0ff; border: 1px dotted #a2c2ff; }
+
+
+/* ESTILOS PARA EL NAVEGADOR CON PESTAÑAS (VERSIÓN FINAL) */
+
+.browser-body { padding: 0; display: flex; flex-direction: column; height: 95%; }
+.tab-bar { display: flex; background-color: #ece9d8; padding: 3px 3px 0 3px; border-bottom: 1px solid #a0a0a0; flex-shrink: 0; }
+.tab { padding: 5px 10px; border: 1px solid #a0a0a0; border-bottom: none; margin-right: 2px; background-color: #d4d0c8; cursor: pointer; border-radius: 4px 4px 0 0; }
+.tab.active { background-color: #f5f5f5; font-weight: bold; }
+.tab-content { flex-grow: 1; position: relative; }
+.tab-pane { display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+.tab-pane.active { display: block; }
+.tab-pane iframe { width: 100%; height: 100%; border: none; }
+
+
+/*   ESTILOS PARA LA BARRA DE TAREAS  */
+
+#taskbar-tabs { display: flex; flex-grow: 1; height: 100%; overflow: hidden; padding: 2px 0; }
+.taskbar-tab { display: flex; align-items: center; max-width: 150px; padding: 0 10px; margin: 0 2px; border: 1px solid #003c74; border-radius: 2px; background: linear-gradient(to bottom, #3d81ee, #2362dd); color: white; font-size: 12px; cursor: pointer; box-shadow: inset 1px 1px 0 #6892ca; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.taskbar-tab:hover { filter: brightness(1.1); }
+.task-tab.active { background: linear-gradient(to bottom, #1e4b96, #0a275a); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); font-weight: bold; }
+
+
+/*   CLASE PARA LA ANIMACIÓN DE MINIMIZAR   */
+
+.window.minimizing { transform: scale(0) translate(var(--tx, 0), var(--ty, 0)); opacity: 0; }
+
+
+/*   ESTILO PARA REDIMENSIONAR VENTANAS */
+
+.ui-resizable-se { cursor: nwse-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+
+
+/*   ESTILOS PARA VENTANA HABILIDADES   */
+
+.skills-container { padding-top: 10px; }
+.skill { margin-bottom: 18px; padding: 0 5px; }
+.skill-name { display: block; margin-bottom: 5px; font-size: 14px; }
+.skill-bar-container { width: 100%; height: 22px; background-color: #fff; border: 2px solid; border-color: #808080 #DFDFDF #DFDFDF #808080; box-sizing: border-box; padding: 2px; }
+.skill-bar { height: 100%; background: linear-gradient(to right, #0055e7, #0078FF); color: white; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+.skill-bar.special-skill { background: linear-gradient(to right, #b22287, #9c076a); }
+.skill-separator { margin: 20px 0; border: 0; border-top: 1px solid #d4d0c8; }
+.window:not([style*="display: none"]) .skill-bar { width: var(--skill-level, 0); }
+
+
+/*   ESTILOS PARA VENTANA SOBRE MÍ (ACTUALIZADOS)   */
+
+.about-me-content {
+    display: flex;
+    align-items: center; 
+    padding: 20px; 
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.about-me-photo {
+    width: 250px;
+    height: 250px;
+    border: 3px inset #fff; 
+    margin-right: 25px; 
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.about-me-text {
+    font-size: 15px; 
+    line-height: 1.7; 
+    white-space: pre-wrap;
+}
+
+/* Regla genérica para contenedores de iframes (Buscaminas, Proyectos) */
+.iframe-container-body {
+    height: 100%; /* <-- CORRECCIÓN #1: Cambiado de 93% a 100% */
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+.iframe-container-body iframe {
+    border: none;
+}
+
+/* CORRECCIÓN PARA LOGOS ANCHOS */
+.project-icon img.wide-logo {
+    object-fit: contain;
+}
+
+/* ESTILOS PARA PROYECTOS */
+
+.project-window-body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 93%;  /* <-- CORRECCIÓN #2: Esta línea se ha eliminado */
+    box-sizing: border-box;
+}
+
+.iframe-project-content {
+    flex-grow: 1;
+    min-height: 0;
+    border-bottom: 1px solid #808080;
+}
+
+.iframe-project-content iframe {
+    width: 100%;
+    height: 100%;
+    border: 2px solid;
+    border-color: #808080 #DFDFDF #DFDFDF #808080;
+}
+
+.project-footer {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    background-color: #ECE9D8;
+    border-top: 1px solid #fff;
+    max-height: 162px;
+    overflow-y: auto;
+}
+
+.project-footer h4 {
+    margin: 0 0 8px 0;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+}
+
+.project-footer p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
