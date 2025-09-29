@@ -3,33 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscaminas</title>
-    <!-- Usamos el mismo xp.css para mantener la coherencia -->
-    <link rel="stylesheet" href="https://unpkg.com/xp.css">
-    <!-- Enlazamos nuestra hoja de estilos para el juego -->
-    <link rel="stylesheet" href="buscaminas.css">
+    <title>Buscaminas XP</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="game-container window-body">
-    <!-- Panel superior con contadores y botón de reinicio -->
-    <div class="game-header sun-ken-panel">
-        <div class="counter" id="mine-counter">010</div>
-        <!-- ===== BOTÓN SMILEY AÑADIDO DE NUEVO AQUÍ ===== -->
-        <button class="reset-button" id="reset-button">
-            <div class="sprite smiley-normal"></div>
-        </button>
-        <div class="counter" id="timer">000</div>
+    <div class="game-container">
+        <div class="header">
+            <div class="counter" id="mine-counter">010</div>
+            <div class="smiley" id="smiley-face">🙂</div>
+            <div class="counter" id="timer">000</div>
+        </div>
+        <div class="grid" id="grid"></div>
     </div>
-
-    <!-- El tablero del juego -->
-    <div class="game-board sun-ken-panel" id="game-board">
-        <!-- Las celdas del juego se generarán aquí con JavaScript -->
-    </div>
-</div>
-
-<!-- Enlazamos nuestro archivo de lógica del juego -->
-<script src="buscaminas.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
