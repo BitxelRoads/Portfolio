@@ -1,118 +1,95 @@
-/* Estilos generales del contenedor del juego */
 body {
-    background-color: #c0c0c0; /* Gris clásico de Windows */
+    background-color: #c0c0c0; /* Clásico gris de Windows */
+    font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
-    user-select: none;
-    overflow: hidden; /* Evita scrolls inesperados */
+    height: 100vh;
+    margin: 0;
+    user-select: none; /* Evita la selección de texto */
 }
 
 .game-container {
     border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
+    border-color: #ffffff #808080 #808080 #ffffff;
     padding: 5px;
     background-color: #c0c0c0;
 }
 
-/* Panel superior (contadores y smiley) */
-.game-header {
+.header {
     display: flex;
-    /* ===== ESTILO MODIFICADO PARA DISTRIBUIR LOS ELEMENTOS ===== */
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
     padding: 5px;
     border: 2px solid;
-    border-color: #808080 #fff #fff #808080;
-}
-
-.sun-ken-panel {
-    border: 2px solid;
-    border-color: #808080 #fff #fff #808080;
+    border-color: #808080 #ffffff #ffffff #808080;
+    margin-bottom: 5px;
 }
 
 .counter {
-    background-color: #000;
+    background-color: #000000;
     color: #ff0000;
-    font-family: 'Consolas', 'Courier New', monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 24px;
-    padding: 2px 5px;
-    border: 1px solid #7f7f7f;
-    min-width: 50px;
+    padding: 2px 4px;
+    border: 1px solid #808080;
+    width: 50px;
     text-align: center;
 }
 
-.reset-button {
-    width: 26px;
-    height: 26px;
+.smiley {
+    width: 30px;
+    height: 30px;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    cursor: pointer;
     background-color: #c0c0c0;
-    padding: 0;
 }
 
-.reset-button:active {
-    border-color: #7f7f7f;
-    border-width: 1px;
+.smiley:active {
+    border-color: #808080 #ffffff #ffffff #808080;
 }
 
-/* Tablero del juego */
-.game-board {
-    margin-top: 5px;
+.grid {
     display: grid;
-    /* Las columnas se definirán en JS */
-    border: 3px solid;
-    border-color: #808080 #fff #fff #808080;
+    grid-template-columns: repeat(9, 24px); /* Para principiante 9x9 */
+    grid-template-rows: repeat(9, 24px);
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
 }
 
 .cell {
-    width: 16px;
-    height: 16px;
-    background-color: #c0c0c0;
+    width: 24px;
+    height: 24px;
     border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    background-color: #c0c0c0;
+    text-align: center;
+    line-height: 24px;
     font-weight: bold;
-    font-family: 'Tahoma', sans-serif;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .cell.revealed {
-    border: 1px solid #7f7f7f;
+    border: 1px solid #808080;
+    background-color: #c0c0c0;
 }
 
-/* Colores para los números */
-.cell[data-adjacent="1"] { color: #0000ff; }
-.cell[data-adjacent="2"] { color: #008000; }
-.cell[data-adjacent="3"] { color: #ff0000; }
-.cell[data-adjacent="4"] { color: #000080; }
-.cell[data-adjacent="5"] { color: #800000; }
-.cell[data-adjacent="6"] { color: #008080; }
-.cell[data-adjacent="7"] { color: #000000; }
-.cell[data-adjacent="8"] { color: #808080; }
+/* Colores para los números de las minas */
+.cell.c1 { color: #0000ff; }
+.cell.c2 { color: #008000; }
+.cell.c3 { color: #ff0000; }
+.cell.c4 { color: #000080; }
+.cell.c5 { color: #800000; }
+.cell.c6 { color: #008080; }
+.cell.c7 { color: #000000; }
+.cell.c8 { color: #808080; }
 
-/* Sprites: Usamos una sola imagen para todos los iconos */
-.sprite {
-    width: 100%;
-    height: 100%;
-    background-image: url(https://www.retrogames.cz/data/images/minesweeper-sprites.png);
-    background-repeat: no-repeat;
+.cell.mine {
+    background-color: red;
 }
-
-/* Posiciones de los sprites en la imagen */
-.smiley-normal  { background-position: 0 0; }
-.smiley-win     { background-position: -52px 0; }
-.smiley-lose    { background-position: -78px 0; }
-.smiley-scared  { background-position: -26px 0; }
-
-.flag           { background-position: 0 -24px; }
-.mine           { background-position: -26px -24px; }
-.mine-exploded  { background-position: -52px -24px; }
-.mine-wrong     { background-position: -78px -24px; }
