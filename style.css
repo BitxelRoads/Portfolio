@@ -69,7 +69,7 @@ body {
     width: 100%;
     height: 30px;
     background: linear-gradient(180deg, #1e57e5, #2465f5 5%, #2364f3 12%, #2566f8 88%, #1e5aeb 94%, #184dd6);
-    border-top: 1px solid #3c82f8;
+    border-top: 0px solid #3c82f8;
     box-shadow: inset 0 1px 0 #5da2ff;
     display: flex;
     align-items: stretch;
@@ -91,20 +91,68 @@ body {
     align-self: center;
 }
 
-/* Estilos para el botón de inicio */
+
+/*  ESTILOS PARA EL NUEVO BOTÓN DE INICIO ESTILO XP  */
+
+
 #start-button {
-    display: block;
-    width: 130px;
-    height: 100%;
-    margin-left: -15px;
-    background-image: url('icons/start_icon.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    display: flex;
+    align-items: center;
+    height: 30px; 
+    padding: 0 20px 0 6px;
+    margin: 0;
+    border: 1px solid #1e872c;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 4px 15px 15px 4px; 
+    background: linear-gradient(to bottom, #59d168 0%, #3aae4a 49%, #289b37 50%, #52c561 100%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+    transition: all 0.1s ease-in-out;
 }
+
+#start-button::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    height: 45%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+    border-radius: 3px 12px 12px 3px; 
+}
+
+#start-button img {
+    height: 22px;
+    margin-right: 8px;
+    position: relative; 
+    z-index: 2;
+}
+
+#start-button .start-text {
+    color: white;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 19px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 2;
+}
+
 
 #start-button:hover {
     filter: brightness(1.1);
+}
+
+#start-button:active {
+    filter: brightness(0.9);
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+
+#start-button:active::before {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.1));
 }
 
 /*  ESTILOS DEL MENÚ DE INICIO  */
