@@ -1,285 +1,209 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CONFIGURACIÓN DEL JUEGO ---
+    const grid = document.getElementById('grid');
+    const mineCounter = document.getElementById('mine-counter');
+    const timerDisplay = document.getElementById('timer');
+    const smileyFace = document.getElementById('smiley-face');
+
     const ROWS = 9;
     const COLS = 9;
-    const MINES = 10;
+    const MINES_COUNT = 10;
 
-    // --- ELEMENTOS DEL DOM ---
-    const boardElement = document.getElementById('game-board');
-    const mineCounterElement = document.getElementById('mine-counter');
-    const timerElement = document.getElementById('timer');
-    const resetButton = document.getElementById('reset-button');
-    const smileyElement = resetButton.querySelector('.sprite');
-
-    // --- VARIABLES DE ESTADO ---
     let board = [];
-    let mineLocations = [];
-    let flagsPlaced = 0;
-    let revealedCells = 0;
-    let timerInterval;
+    let minesLeft = MINES_COUNT;
+    let timer;
     let seconds = 0;
-    let isGameOver = false;
+    let gameOver = false;
     let firstClick = true;
 
-    // --- FUNCIONES PRINCIPALES ---
-
-    function initGame() {
-        isGameOver = false;
-        firstClick = true;
-        flagsPlaced = 0;
-        revealedCells = 0;
-        seconds = 0;
+    // --- INICIALIZACIÓN DEL JUEGO ---
+    function init() {
+        // Reiniciar variables
         board = [];
-        mineLocations = [];
+        minesLeft = MINES_COUNT;
+        seconds = 0;
+        gameOver = false;
+        firstClick = true;
+        grid.innerHTML = '';
+        smileyFace.innerText = '🙂';
+        mineCounter.innerText = formatCounter(minesLeft);
+        timerDisplay.innerText = formatCounter(seconds);
+        clearInterval(timer);
 
-        boardElement.innerHTML = '';
-        boardElement.style.gridTemplateColumns = `repeat(${COLS}, 16px)`;
-        smileyElement.className = 'sprite smiley-normal';
-        updateMineCounter();
-        resetTimer();
-
+        // Crear el tablero lógico (matriz)
         for (let r = 0; r < ROWS; r++) {
-            const row = [];
+            board.push(Array(COLS).fill({ isMine: false, isRevealed: false, isFlagged: false, adjacentMines: 0 }));
+        }
+
+        // Crear el tablero visual (DOM)
+        for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
-                const cellElement = document.createElement('div');
-                cellElement.classList.add('cell');
-                
-                const cell = {
-                    isMine: false,
-                    isRevealed: false,
-                    isFlagged: false,
-                    adjacentMines: 0,
-                    element: cellElement,
-                    // Guardamos las funciones de los listeners para poder quitarlas después
-                    listeners: {} 
-                };
-
-                cell.listeners.click = () => handleCellClick(r, c);
-                cell.listeners.contextmenu = (e) => {
-                    e.preventDefault();
-                    handleRightClick(r, c);
-                };
-                cell.listeners.mousedown = () => {
-                    if (!isGameOver) smileyElement.className = 'sprite smiley-scared';
-                };
-                cell.listeners.mouseup = () => {
-                    if (!isGameOver) smileyElement.className = 'sprite smiley-normal';
-                };
-
-                // Añadimos los listeners al elemento
-                cell.element.addEventListener('click', cell.listeners.click);
-                cell.element.addEventListener('contextmenu', cell.listeners.contextmenu);
-                cell.element.addEventListener('mousedown', cell.listeners.mousedown);
-                cell.element.addEventListener('mouseup', cell.listeners.mouseup);
-
-                boardElement.appendChild(cell.element);
-                row.push(cell);
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.row = r;
+                cell.dataset.col = c;
+                cell.addEventListener('click', handleCellClick);
+                cell.addEventListener('contextmenu', handleRightClick);
+                grid.appendChild(cell);
             }
-            board.push(row);
         }
     }
 
-    function placeMines(initialRow, initialCol) {
-        let minesToPlace = MINES;
-        while (minesToPlace > 0) {
+    // --- COLOCACIÓN DE MINAS ---
+    function placeMines(firstRow, firstCol) {
+        let minesPlaced = 0;
+        while (minesPlaced < MINES_COUNT) {
             const r = Math.floor(Math.random() * ROWS);
             const c = Math.floor(Math.random() * COLS);
-            if ((r === initialRow && c === initialCol) || board[r][c].isMine) {
-                continue;
+            // Asegurarse de que el primer clic no sea una mina y no se repitan minas
+            if (!(r === firstRow && c === firstCol) && !board[r][c].isMine) {
+                board[r][c] = { ...board[r][c], isMine: true };
+                minesPlaced++;
             }
-            board[r][c].isMine = true;
-            mineLocations.push([r, c]);
-            minesToPlace--;
         }
+        calculateAdjacentMines();
     }
 
+    // --- CÁLCULO DE NÚMEROS ---
     function calculateAdjacentMines() {
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
                 if (board[r][c].isMine) continue;
                 let count = 0;
-                forEachNeighbor(r, c, (nr, nc) => {
-                    if (board[nr][nc].isMine) {
-                        count++;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        const newRow = r + i;
+                        const newCol = c + j;
+                        if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && board[newRow][newCol].isMine) {
+                            count++;
+                        }
                     }
-                });
-                board[r][c].adjacentMines = count;
+                }
+                board[r][c] = { ...board[r][c], adjacentMines: count };
             }
         }
     }
-    
-    // --- MANEJO DE EVENTOS ---
 
-    function handleCellClick(r, c) {
-        const cell = board[r][c];
-        if (isGameOver || cell.isFlagged) return;
+    // --- MANEJO DE CLICS ---
+    function handleCellClick(e) {
+        if (gameOver) return;
+        const cell = e.target;
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
 
         if (firstClick) {
-            placeMines(r, c);
-            calculateAdjacentMines();
+            placeMines(row, col);
             startTimer();
             firstClick = false;
         }
 
-        if (cell.isRevealed) {
-            handleChordClick(r, c); // Lógica de "acorde" si se pica en una ya revelada
-        } else {
-            revealCell(r, c);
-        }
+        if (board[row][col].isFlagged || board[row][col].isRevealed) return;
         
-        if (!isGameOver) {
-            checkWinCondition();
-        }
+        smileyFace.innerText = '😮';
+        setTimeout(() => { if (!gameOver) smileyFace.innerText = '🙂'; }, 200);
+
+        revealCell(row, col);
+        checkWinCondition();
     }
 
-    function handleRightClick(r, c) {
-        if (isGameOver || board[r][c].isRevealed) return;
-        
-        const cell = board[r][c];
-        cell.isFlagged = !cell.isFlagged;
-        
-        if (cell.isFlagged) {
-            cell.element.innerHTML = '<div class="sprite flag"></div>';
-            flagsPlaced++;
+    function handleRightClick(e) {
+        e.preventDefault();
+        if (gameOver) return;
+        const cell = e.target;
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+
+        if (board[row][col].isRevealed) return;
+
+        board[row][col] = { ...board[row][col], isFlagged: !board[row][col].isFlagged };
+
+        if (board[row][col].isFlagged) {
+            cell.innerText = '🚩';
+            minesLeft--;
         } else {
-            cell.element.innerHTML = '';
-            flagsPlaced--;
+            cell.innerText = '';
+            minesLeft++;
         }
-        updateMineCounter();
+        mineCounter.innerText = formatCounter(minesLeft);
     }
     
-    function handleChordClick(r, c) {
-        const cell = board[r][c];
-        if (cell.adjacentMines === 0) return;
-
-        let adjacentFlags = 0;
-        forEachNeighbor(r, c, (nr, nc) => {
-            if (board[nr][nc].isFlagged) {
-                adjacentFlags++;
-            }
-        });
-
-        if (adjacentFlags === cell.adjacentMines) {
-            forEachNeighbor(r, c, (nr, nc) => {
-                if (!board[nr][nc].isRevealed && !board[nr][nc].isFlagged) {
-                    revealCell(nr, nc);
-                }
-            });
-        }
-    }
-
-    // --- LÓGICA DEL JUEGO ---
-
-    function revealCell(r, c) {
-        const cell = board[r][c];
-        if (cell.isRevealed || cell.isFlagged) return;
-        
-        if (cell.isMine) {
-            gameOver(false, r, c);
+    // --- LÓGICA DE REVELACIÓN ---
+    function revealCell(row, col) {
+        if (row < 0 || row >= ROWS || col < 0 || col >= COLS || board[row][col].isRevealed) {
             return;
         }
 
-        cell.isRevealed = true;
-        cell.element.classList.add('revealed');
-        revealedCells++;
+        board[row][col] = { ...board[row][col], isRevealed: true };
+        const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+        cell.classList.add('revealed');
 
-        if (cell.adjacentMines > 0) {
-            cell.element.textContent = cell.adjacentMines;
-            cell.element.dataset.adjacent = cell.adjacentMines;
+        if (board[row][col].isMine) {
+            cell.innerText = '💣';
+            cell.classList.add('mine');
+            endGame(false);
+            return;
+        }
+
+        if (board[row][col].adjacentMines > 0) {
+            cell.innerText = board[row][col].adjacentMines;
+            cell.classList.add(`c${board[row][col].adjacentMines}`);
         } else {
-            // Expansión recursiva si la celda está vacía
-            forEachNeighbor(r, c, (nr, nc) => {
-                revealCell(nr, nc);
-            });
+            // Expansión si la celda está vacía
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    revealCell(row + i, col + j);
+                }
+            }
         }
     }
-    
-    function gameOver(isWin, clickedRow, clickedCol) {
-        if (isGameOver) return; // Evita que la función se ejecute varias veces
-        isGameOver = true;
-        stopTimer();
-        smileyElement.className = isWin ? 'sprite smiley-win' : 'sprite smiley-lose';
 
-        // Congela el tablero quitando los listeners para evitar más interacciones
+    // --- ESTADO DEL JUEGO ---
+    function checkWinCondition() {
+        let revealedCount = 0;
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
-                const cell = board[r][c];
-                cell.element.removeEventListener('click', cell.listeners.click);
-                cell.element.removeEventListener('contextmenu', cell.listeners.contextmenu);
-                cell.element.removeEventListener('mousedown', cell.listeners.mousedown);
-                cell.element.removeEventListener('mouseup', cell.listeners.mouseup);
+                if (board[r][c].isRevealed) {
+                    revealedCount++;
+                }
             }
         }
-        
+        if (revealedCount === ROWS * COLS - MINES_COUNT) {
+            endGame(true);
+        }
+    }
+
+    function endGame(isWin) {
+        gameOver = true;
+        clearInterval(timer);
         if (isWin) {
-            mineLocations.forEach(([r, c]) => {
-                if (!board[r][c].isFlagged) {
-                    board[r][c].element.innerHTML = '<div class="sprite flag"></div>';
-                }
-            });
-            mineCounterElement.textContent = '000';
+            smileyFace.innerText = '😎';
         } else {
-            // Muestra todas las minas al perder
-            board.forEach((row, r) => row.forEach((cell, c) => {
-                if (cell.isMine && !cell.isFlagged) {
-                    cell.element.innerHTML = '<div class="sprite mine"></div>';
+            smileyFace.innerText = '😵';
+            // Revelar todas las minas
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (board[r][c].isMine) {
+                        const cell = document.querySelector(`[data-row='${r}'][data-col='${c}']`);
+                        if (!board[r][c].isRevealed) cell.innerText = '💣';
+                    }
                 }
-                if (!cell.isMine && cell.isFlagged) {
-                    cell.element.innerHTML = '<div class="sprite mine-wrong"></div>';
-                }
-            }));
-            // Marca la mina que se ha clicado
-            board[clickedRow][clickedCol].element.innerHTML = '<div class="sprite mine-exploded"></div>';
+            }
         }
     }
 
-    function checkWinCondition() {
-        if (revealedCells === (ROWS * COLS) - MINES) {
-            gameOver(true);
-        }
-    }
-    
     // --- UTILIDADES ---
-
-    function forEachNeighbor(r, c, callback) {
-        for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-                if (dr === 0 && dc === 0) continue;
-                const nr = r + dr;
-                const nc = c + dc;
-                if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
-                    callback(nr, nc);
-                }
-            }
-        }
-    }
-
-    function updateMineCounter() {
-        const remaining = MINES - flagsPlaced;
-        mineCounterElement.textContent = String(remaining).padStart(3, '0');
-    }
-
     function startTimer() {
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
+        timer = setInterval(() => {
             seconds++;
-            if (seconds <= 999) {
-                timerElement.textContent = String(seconds).padStart(3, '0');
-            }
+            timerDisplay.innerText = formatCounter(seconds);
         }, 1000);
     }
 
-    function stopTimer() {
-        clearInterval(timerInterval);
-    }
-    
-    function resetTimer() {
-        stopTimer();
-        seconds = 0;
-        timerElement.textContent = '000';
+    function formatCounter(num) {
+        return num.toString().padStart(3, '0');
     }
 
-    // --- INICIO ---
-    resetButton.addEventListener('click', initGame);
-    initGame();
+    smileyFace.addEventListener('click', init);
+
+    // Iniciar el juego
+    init();
 });
