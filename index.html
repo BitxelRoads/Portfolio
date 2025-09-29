@@ -4,14 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Jonathan Segura</title>
-    
-    <!-- Librería CSS que nos da el estilo base de Windows XP -->
     <link rel="stylesheet" href="https://unpkg.com/xp.css">
-    
-    <!-- Nuestro archivo de estilos personalizados -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
 </head>
 <body>
@@ -22,26 +16,27 @@
             <img src="icons/my_computer.png" alt="Icono de PC">
             <span>Mis Proyectos</span>
         </div>
-
         <div class="desktop-icon" data-opens="window-habilidades" data-title="Mis Habilidades">
             <img src="icons/my_documents.png" alt="Icono de Documentos">
             <span>Mis Habilidades</span>
         </div>
-
         <div class="desktop-icon" data-opens="window-sobre-mi" data-title="Sobre Mí">
             <img src="icons/notepad.png" alt="Icono de Bloc de Notas">
             <span>Sobre Mí</span>
         </div>
-        
         <div class="desktop-icon" data-opens="window-navegador" data-title="Navegador Web">
             <img src="icons/internet_explorer.png" alt="Icono de Navegador">
             <span>Mis Webs</span>
         </div>
-
         <div class="desktop-icon" data-opens="window-buscaminas" data-title="Buscaminas">
             <img src="icons/buscaminas.png" alt="Icono de Buscaminas">
             <span>Buscaminas</span>
         </div>
+        <div class="desktop-icon" data-opens="window-contacto" data-title="Contacto">
+            <img src="icons/contact.png" alt="Icono de Contacto">
+            <span>Contacto</span>
+        </div>
+
         
         <!-- VENTANAS PREDEFINIDAS -->
 
@@ -164,7 +159,60 @@ X: @Joalseca</div>
             </div>
         </div>
 
-    </div>
+        <div class="window" id="window-contacto" style="width: 450px; height: auto; top: 60px; left: 250px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Formulario de Contacto</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" class="minimize-btn"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <p>Envíame un mensaje y me pondré en contacto contigo.</p>
+        
+                <form id="contact-form" action="https://n8n.srv867589.hstgr.cloud/webhook/synappis" method="POST">
+                    <div class="field-row-stacked" style="margin-bottom: 12px;">
+                        <label for="form-name">Nombre:</label>
+                        <input id="form-name" name="name" type="text" required />
+                    </div>
+                    <div class="field-row-stacked" style="margin-bottom: 12px;">
+                        <label for="form-company">Compañía (Opcional):</label>
+                        <input id="form-company" name="company" type="text" />
+                    </div>
+                    <div class="field-row-stacked" style="margin-bottom: 12px;">
+                        <label for="form-email">Email:</label>
+                        <input id="form-email" name="email" type="email" required />
+                    </div>
+                    <div class="field-row-stacked" style="margin-bottom: 12px;">
+                        <label for="form-message">Mensaje:</label>
+                        <textarea id="form-message" name="message" required rows="5"></textarea>
+                    </div>
+                    <div class="form-footer">
+                        <div id="form-status"></div>
+                        <button type="submit" id="submit-btn">Enviar Mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+
+        <!-- CORRECCIÓN: La pantalla de apagado AHORA ESTÁ DENTRO de #desktop  -->
+        <div id="shutdown-overlay">
+            <div class="window" id="shutdown-window" style="width: 380px; display: block;">
+                <div class="title-bar">
+                    <div class="title-bar-text">Apagando el sistema...</div>
+                </div>
+                <div class="window-body" style="text-align: center;">
+                    <img src="icons/apagado.png" alt="Apagar" style="width: 48px; height: 48px; margin-top: 10px; margin-bottom: 20px;">
+                    <h2 style="font-size: 18px; margin-top: 0; color: #003399;">¡Gracias por tu visita!</h2>
+                    <p style="margin-bottom: 25px;">Espero que te haya gustado mi portfolio.<br>¡Vuelve pronto!</p>
+                    <button id="close-shutdown-btn" style="min-width: 90px; margin-bottom: 10px;">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+    </div> 
 
     <!-- ESTRUCTURA DEL MENÚ DE INICIO -->
     <div id="start-menu">
@@ -175,26 +223,24 @@ X: @Joalseca</div>
         <div class="start-menu-body">
             <div class="start-menu-column left">
                 <ul>
-                    <li class="menu-item"><img src="icons/internet_explorer.png"> <span>Internet</span></li>
-                    <li class="menu-item"><img src="icons/buscaminas.png"> <span>Buscaminas</span></li>
+                    <li class="menu-item" data-opens="window-navegador"><img src="icons/internet_explorer.png"> <span>Internet</span></li>
+                    <li class="menu-item" data-opens="window-buscaminas"><img src="icons/buscaminas.png"> <span>Buscaminas</span></li>
                 </ul>
                 <hr class="menu-separator">
                 <ul>
-                    <li class="menu-item"><img src="icons/my_computer.png"> <span>Mis Proyectos</span></li>
-                    <li class="menu-item"><img src="icons/my_documents.png"> <span>Mis Habilidades</span></li>
-                    <li class="menu-item"><img src="icons/notepad.png"> <span>Sobre Mí</span></li>
+                    <li class="menu-item" data-opens="window-proyectos"><img src="icons/my_computer.png"> <span>Mis Proyectos</span></li>
+                    <li class="menu-item" data-opens="window-habilidades"><img src="icons/my_documents.png"> <span>Mis Habilidades</span></li>
+                    <li class="menu-item" data-opens="window-sobre-mi"><img src="icons/notepad.png"> <span>Sobre Mí</span></li>
                 </ul>
             </div>
             <div class="start-menu-column right">
                 <ul>
-                    <li class="menu-item"><img src="icons/control_panel.png"> <span>Contacto</span></li>
-                    <li class="menu-item"><img src="icons/help.png"> <span>Ayuda y Soporte</span></li>
+                    <li class="menu-item" data-opens="window-contacto"><img src="icons/contact.png"> <span>Contacto</span></li>
                 </ul>
             </div>
         </div>
         <div class="start-menu-footer">
-            <div class="footer-button"><img src="icons/log_off.png"> <span>Log Off</span></div>
-            <div class="footer-button"><img src="icons/turn_off.png"> <span>Turn Off Computer</span></div>
+            <div class="footer-button shutdown-btn"><img src="icons/apagado.png"> <span> Hasta pronto! </span></div>
         </div>
     </div>
     
@@ -205,11 +251,8 @@ X: @Joalseca</div>
         <div id="taskbar-clock"></div>
     </div>
     
-    <!-- Librerías de JavaScript para la interactividad -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    
-    <!-- Nuestro archivo de JavaScript -->
     <script src="main.js"></script>
 
 </body>

@@ -304,3 +304,80 @@ body {
     font-size: 13px;
     line-height: 1.5;
 }
+
+
+/* ===== NUEVOS ESTILOS DE APAGADO ===== */
+
+#shutdown-overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 5, 45, 0.7);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+}
+
+#shutdown-overlay.active {
+    display: flex;
+}
+
+.shutdown-message-box {
+    background-color: #f0f0f0;
+    border: 2px outset #fff;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
+    padding: 25px 30px;
+    text-align: center;
+    width: 350px;
+}
+
+.shutdown-message-box h2 {
+    font-size: 25px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #003399;
+}
+
+.shutdown-message-box p {
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+.shutdown-message-box button {
+    min-width: 80px;
+}
+
+/* ===== ESTILOS PARA EL FORMULARIO DE CONTACTO ===== */
+#contact-form {
+    padding-top: 10px;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end; /
+    align-items: center;
+    margin-top: 15px;
+}
+
+#form-status {
+    margin-right: auto; 
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#form-status.success {
+    color: #008000; 
+}
+
+#form-status.error {
+    color: #ff0000;
+}
+
+#contact-form textarea {
+    width: 100%;                  /* Hace que ocupe todo el ancho del contenedor */
+    box-sizing: border-box;       /* Evita que el borde y padding lo hagan más ancho de 100% */
+    resize: none;                 /* Deshabilita el control de redimensionamiento de la esquina */
+}
