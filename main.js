@@ -39,6 +39,15 @@ $(document).ready(function() {
         windowElement.show();
         createTaskbarTab(windowId, title);
         windowElement.click();
+
+        if (window.matchMedia('(max-width: 768px)').matches) {
+            if (windowElement.data('is-game')) {
+                windowElement.css({ 'width': '90%', 'height': '80%', 'top': '5%', 'left': '5%' });
+            }
+            if (windowId === 'window-sobre-mi') {
+                windowElement.css({ 'height': 'auto' });
+            }
+        }
     });
     
     $('#desktop').on('click', '.project-icon', function() {

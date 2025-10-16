@@ -334,6 +334,13 @@ body {
     line-height: 1.5;
 }
 
+@media (max-width: 768px) {
+    .iframe-container-body iframe {
+        height: 100%;
+    }
+}
+
+
 
 #shutdown-overlay {
     display: none; 
@@ -407,4 +414,48 @@ body {
     width: 100%;                 
     box-sizing: border-box;      
     resize: none;                 
+}
+
+@media (max-width: 768px) {
+    .desktop-icon {
+        width: 70px;
+        margin: 10px;
+    }
+
+    .desktop-icon img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .desktop-icon span {
+        font-size: 12px;
+    }
+
+    .window {
+        width: 90% !important;
+        left: 5% !important;
+        top: 5% !important;
+        height: auto !important;
+        max-height: 90%;
+    }
+
+    .about-me-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-me-photo {
+        margin-right: 0;
+        margin-bottom: 15px;
+        width: 150px;
+        height: 150px;
+    }
+
+    #start-menu {
+        width: 100%;
+    }
+
+    .project-icons-container {
+        justify-content: center;
+    }
 }
