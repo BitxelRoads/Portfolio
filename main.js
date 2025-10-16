@@ -1,11 +1,5 @@
-// main.js - VERSIÓN FINAL CORREGIDA CON APAGADO FUNCIONAL
-
 $(document).ready(function() {
     let highestZIndex = 100;
-
-    // =================================================================
-    // FUNCIONES AUXILIARES PARA LA BARRA DE TAREAS
-    // =================================================================
 
     function createTaskbarTab(windowId, title) {
         if ($(`.taskbar-tab[data-target="#${windowId}"]`).length > 0) {
@@ -24,13 +18,8 @@ $(document).ready(function() {
         $(`.taskbar-tab[data-target="#${windowId}"]`).addClass('active');
     }
 
-    // =================================================================
-    // MANEJADORES DE EVENTOS PRINCIPALES (USANDO DELEGACIÓN)
-    // =================================================================
-
-    // 1. GESTIÓN DE VENTANAS: Traer al frente y activar su pestaña al hacer clic.
     $('#desktop').on('click', '.window', function() {
-        // No aplicar a la ventana de apagado que está dentro del overlay
+
         if ($(this).closest('#shutdown-overlay').length) {
             return;
         }
@@ -42,7 +31,6 @@ $(document).ready(function() {
         updateTaskbarActiveState(windowId);
     });
 
-    // 2. ABRIR VENTANAS PREDEFINIDAS desde los iconos del escritorio.
     $('.desktop-icon').on('dblclick', function() {
         const windowId = $(this).data('opens');
         const windowElement = $('#' + windowId);
@@ -53,7 +41,6 @@ $(document).ready(function() {
         windowElement.click();
     });
     
-    // 3. CREAR Y ABRIR NUEVAS VENTANAS DE PROYECTOS desde "Mis Proyectos".
     $('#desktop').on('click', '.project-icon', function() {
         const projectUrl = $(this).data('url');
         const projectTitle = $(this).data('title');
@@ -102,7 +89,7 @@ $(document).ready(function() {
         $('#' + windowId).click();
     });
 
-    // 4. CERRAR CUALQUIER VENTANA y eliminar su pestaña.
+
     $('#desktop').on('click', '.close-btn', function() {
         const window = $(this).closest('.window');
         const windowId = window.attr('id');
@@ -110,7 +97,7 @@ $(document).ready(function() {
         removeTaskbarTab(windowId);
     });
     
-    // 5. MINIMIZAR CUALQUIER VENTANA (CON ANIMACIÓN Y RESETEO)
+
     $('#desktop').on('click', '.minimize-btn', function() {
         const window = $(this).closest('.window');
         const windowId = window.attr('id');
@@ -140,7 +127,6 @@ $(document).ready(function() {
         }, 300); 
     });
 
-    // 6. RESTAURAR/ACTIVAR VENTANA DESDE LA BARRA DE TAREAS
     $('#taskbar-tabs').on('click', '.taskbar-tab', function() {
         const windowId = $(this).data('target');
         const window = $(windowId);
@@ -152,9 +138,7 @@ $(document).ready(function() {
         window.click();
     });
 
-    // =================================================================
-    // ===== 7. MANEJADOR PARA EL MENÚ DE INICIO (FUNCIONAL) =====
-    // =================================================================
+
     $('#start-menu').on('click', '.menu-item', function() {
         const windowId = $(this).data('opens');
         if (windowId) {
@@ -166,13 +150,9 @@ $(document).ready(function() {
         }
     });
 
-    // =================================================================
-    // ===== 8. MANEJADOR PARA LOS BOTONES DE APAGADO (CORREGIDO) =====
-    // =================================================================
+
     $('#start-menu').on('click', '.shutdown-btn', function() {
         $('#start-menu').hide();
-        // **LA CORRECCIÓN CLAVE**: Forzamos el display a 'flex' para centrar el contenido
-        // y luego usamos fadeIn para la animación de opacidad.
         $('#shutdown-overlay').css('display', 'flex').hide().fadeIn(250);
     });
 
@@ -180,49 +160,37 @@ $(document).ready(function() {
         $('#shutdown-overlay').fadeOut(250);
     });
 
-        // ===== 9. MANEJADOR PARA EL FORMULARIO DE CONTACTO (AJAX) =====
-    // =================================================================
     $('#contact-form').on('submit', function(event) {
-        // 1. Prevenir el envío tradicional del formulario
         event.preventDefault(); 
 
         const form = $(this);
         const submitButton = $('#submit-btn');
         const statusDiv = $('#form-status');
-        const formData = form.serialize(); // Convierte los datos del form para el envío
-
-        // 2. Deshabilitar el botón y mostrar estado de "Enviando"
+        const formData = form.serialize(); 
         submitButton.prop('disabled', true);
         statusDiv.text('Enviando...').removeClass('success error');
 
-        // 3. Realizar la petición AJAX al webhook de n8n
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
             data: formData,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function(response) {
-                // 4. En caso de éxito
+
                 statusDiv.text('¡Mensaje enviado! Gracias.').addClass('success');
-                // Opcional: Deshabilitar todo el formulario para evitar reenvíos
+
                 form.find('input, textarea').prop('disabled', true);
             },
             error: function() {
-                // 5. En caso de error
+
                 statusDiv.text('Error al enviar.').addClass('error');
-                // Volver a habilitar el botón para que el usuario pueda reintentar
+
                 submitButton.prop('disabled', false);
             }
         });
     });
 
-    // =================================================================
-    // CÓDIGO INICIAL Y OTRAS FUNCIONALIDADES
-    // =================================================================
-
     $('.desktop-icon').draggable({ containment: '#desktop' });
-
-    // Hacemos que todas las ventanas sean arrastrables y redimensionables, EXCEPTO la de apagado
     $('.window').not('#shutdown-overlay .window').draggable({ 
         handle: '.title-bar', 
         containment: '#desktop', 

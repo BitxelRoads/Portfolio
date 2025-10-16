@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameOver = false;
     let firstClick = true;
 
-    // --- INICIALIZACIÓN DEL JUEGO ---
+
     function init() {
-        // Reiniciar variables
+  
         board = [];
         minesLeft = MINES_COUNT;
         seconds = 0;
@@ -29,12 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
         timerDisplay.innerText = formatCounter(seconds);
         clearInterval(timer);
 
-        // Crear el tablero lógico (matriz)
         for (let r = 0; r < ROWS; r++) {
             board.push(Array(COLS).fill({ isMine: false, isRevealed: false, isFlagged: false, adjacentMines: 0 }));
         }
 
-        // Crear el tablero visual (DOM)
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
                 const cell = document.createElement('div');
@@ -48,13 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- COLOCACIÓN DE MINAS ---
+
     function placeMines(firstRow, firstCol) {
         let minesPlaced = 0;
         while (minesPlaced < MINES_COUNT) {
             const r = Math.floor(Math.random() * ROWS);
             const c = Math.floor(Math.random() * COLS);
-            // Asegurarse de que el primer clic no sea una mina y no se repitan minas
             if (!(r === firstRow && c === firstCol) && !board[r][c].isMine) {
                 board[r][c] = { ...board[r][c], isMine: true };
                 minesPlaced++;
@@ -62,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         calculateAdjacentMines();
     }
-
-    // --- CÁLCULO DE NÚMEROS ---
     function calculateAdjacentMines() {
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
@@ -83,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- MANEJO DE CLICS ---
     function handleCellClick(e) {
         if (gameOver) return;
         const cell = e.target;
@@ -126,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mineCounter.innerText = formatCounter(minesLeft);
     }
     
-    // --- LÓGICA DE REVELACIÓN ---
     function revealCell(row, col) {
         if (row < 0 || row >= ROWS || col < 0 || col >= COLS || board[row][col].isRevealed) {
             return;
@@ -147,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.innerText = board[row][col].adjacentMines;
             cell.classList.add(`c${board[row][col].adjacentMines}`);
         } else {
-            // Expansión si la celda está vacía
+
             for (let i = -1; i <= 1; i++) {
                 for (let j = -1; j <= 1; j++) {
                     revealCell(row + i, col + j);
@@ -156,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- ESTADO DEL JUEGO ---
     function checkWinCondition() {
         let revealedCount = 0;
         for (let r = 0; r < ROWS; r++) {
@@ -178,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
             smileyFace.innerText = '😎';
         } else {
             smileyFace.innerText = '😵';
-            // Revelar todas las minas
             for (let r = 0; r < ROWS; r++) {
                 for (let c = 0; c < COLS; c++) {
                     if (board[r][c].isMine) {
@@ -190,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- UTILIDADES ---
     function startTimer() {
         timer = setInterval(() => {
             seconds++;
@@ -204,6 +194,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     smileyFace.addEventListener('click', init);
 
-    // Iniciar el juego
     init();
 });
