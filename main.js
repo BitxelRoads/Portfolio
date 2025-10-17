@@ -49,6 +49,9 @@ $(document).ready(function() {
             if (windowId === 'window-sobre-mi') {
                 windowElement.css({ 'height': 'auto' });
             }
+            if (windowId === 'window-navegador') {
+                windowElement.css({ 'width': '100%', 'height': '100%', 'top': '0', 'left': '0' });
+            }
         }
     });
     
@@ -86,7 +89,7 @@ $(document).ready(function() {
             titleBarText.text(projectTitle);
             windowBody.html(newProjectViewHTML).addClass('project-view-body');
             
-            projectsWindow.animate({ height: '92vh', top: '4vh' }, 250);
+            projectsWindow.animate({ height: '100%', width: '100%', top: '0', left: '0' }, 250);
 
         } else {
             // --- DESKTOP LOGIC (opens a new window) ---
@@ -149,7 +152,7 @@ $(document).ready(function() {
             titleBarText.text(originalProjectsTitle);
         }
         
-        projectsWindow.css('height', 'auto');
+        projectsWindow.css({ height: 'auto', width: '', top: '', left: '' });
     });
 
 
