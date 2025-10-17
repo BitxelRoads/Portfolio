@@ -460,7 +460,8 @@ body {
     }
 
     #window-proyectos,
-    #window-contacto {
+    #window-contacto,
+    #shutdown-window {
         height: auto !important;
     }
 
@@ -485,6 +486,8 @@ body {
 
     #start-menu {
         width: 100%;
+        max-width: 380px;
+        box-sizing: border-box;
     }
 
     .project-icons-container {
