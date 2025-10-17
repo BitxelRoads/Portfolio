@@ -436,8 +436,11 @@ body {
         height: 85% !important;
         left: 2.5% !important;
         top: 5% !important;
-        display: flex;
         flex-direction: column;
+    }
+
+    .window[style*="display: block"] {
+        display: flex !important;
     }
 
     .window-body {
@@ -450,6 +453,17 @@ body {
     #window-buscaminas {
         width: 90vw !important;
         height: 75vh !important;
+    }
+
+    #window-proyectos {
+        height: auto !important;
+    }
+
+    .window-body.project-view-body {
+        display: flex;
+        flex-direction: column;
+        padding: 0 !important;
+        height: 93% !important;
     }
 
     .about-me-content {
@@ -470,5 +484,9 @@ body {
 
     .project-icons-container {
         justify-content: center;
+    }
+
+    .window-body.project-view-body .iframe-project-content {
+        height: 55vh;
     }
 }

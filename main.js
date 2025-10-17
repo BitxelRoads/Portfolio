@@ -1,5 +1,7 @@
 $(document).ready(function() {
     let highestZIndex = 100;
+    let originalProjectsContent = null;
+    let originalProjectsTitle = '';
 
     function createTaskbarTab(windowId, title) {
         if ($(`.taskbar-tab[data-target="#${windowId}"]`).length > 0) {
@@ -51,17 +53,54 @@ $(document).ready(function() {
     });
     
     $('#desktop').on('click', '.project-icon', function() {
-        const projectUrl = $(this).data('url');
-        const projectTitle = $(this).data('title');
-        const projectDescription = $(this).data('description');
-        const windowId = 'window-' + projectTitle.replace(/\s+/g, '-').toLowerCase();
+        const projectIcon = $(this);
+        const projectsWindow = projectIcon.closest('#window-proyectos');
 
-        if ($('#' + windowId).length > 0) {
-            $('#' + windowId).show().click();
-            return;
-        }
-        
-        const newWindow = `
+        // Check if on mobile and the icon is inside the "Mis Proyectos" window
+        if (window.matchMedia('(max-width: 768px)').matches && projectsWindow.length) {
+            // --- MOBILE-ONLY IN-WINDOW NAVIGATION ---
+            const projectUrl = projectIcon.data('url');
+            const projectTitle = projectIcon.data('title');
+            const projectDescription = projectIcon.data('description');
+            const windowBody = projectsWindow.find('.window-body');
+            const titleBarText = projectsWindow.find('.title-bar-text');
+
+            if (originalProjectsContent === null) {
+                originalProjectsContent = windowBody.html();
+                originalProjectsTitle = titleBarText.text();
+            }
+
+            const newProjectViewHTML = `
+                <div class="project-header" style="padding: 5px; background-color: #f0f0f0; border-bottom: 1px solid #ccc; text-align: left; flex-shrink: 0;">
+                    <button class="back-to-projects">&lt; Volver</button>
+                </div>
+                <div class="iframe-project-content">
+                    <iframe src="${projectUrl}" frameborder="0"></iframe>
+                </div>
+                <div class="project-footer">
+                    <h4>Descripción</h4>
+                    <p>${projectDescription}</p>
+                </div>
+            `;
+
+            titleBarText.text(projectTitle);
+            windowBody.html(newProjectViewHTML).addClass('project-view-body');
+            
+            projectsWindow.animate({ height: '92vh', top: '4vh' }, 250);
+
+        } else {
+            // --- DESKTOP LOGIC (opens a new window) ---
+            const projectUrl = $(this).data('url');
+            const projectTitle = $(this).data('title');
+            const projectDescription = $(this).data('description');
+            const windowId = 'window-' + projectTitle.replace(/\s+/g, '-').toLowerCase();
+
+            if ($('#' + windowId).length > 0) {
+                $('#' + windowId).show().click();
+                return;
+            }
+            
+            const newWindow = `
             <div class="window" id="${windowId}" style="width: 850px; height: 800px; top: 100px; left: 200px;">
                 <div class="title-bar">
                     <div class="title-bar-text">${projectTitle}</div>
@@ -81,21 +120,36 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>`;
+            
+            $('#desktop').append(newWindow);
+            createTaskbarTab(windowId, projectTitle);
+
+            $('#' + windowId).draggable({ 
+                handle: '.title-bar', 
+                containment: '#desktop', 
+                stack: '.window', 
+                start: function() { $(this).click(); }
+            }).resizable({ 
+                minHeight: 400, 
+                minWidth: 500
+            });
+
+            $('#' + windowId).click();
+        }
+    });
+
+    // This handler is for the mobile-only back button
+    $('#desktop').on('click', '.back-to-projects', function() {
+        const projectsWindow = $(this).closest('#window-proyectos');
+        const windowBody = projectsWindow.find('.window-body');
+        const titleBarText = projectsWindow.find('.title-bar-text');
+
+        if (originalProjectsContent !== null) {
+            windowBody.html(originalProjectsContent).removeClass('project-view-body');
+            titleBarText.text(originalProjectsTitle);
+        }
         
-        $('#desktop').append(newWindow);
-        createTaskbarTab(windowId, projectTitle);
-
-        $('#' + windowId).draggable({ 
-            handle: '.title-bar', 
-            containment: '#desktop', 
-            stack: '.window', 
-            start: function() { $(this).click(); }
-        }).resizable({ 
-            minHeight: 400, 
-            minWidth: 500
-        });
-
-        $('#' + windowId).click();
+        projectsWindow.css('height', 'auto');
     });
 
 
