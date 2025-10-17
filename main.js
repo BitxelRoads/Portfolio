@@ -89,7 +89,7 @@ $(document).ready(function() {
             titleBarText.text(projectTitle);
             windowBody.html(newProjectViewHTML).addClass('project-view-body');
             
-            projectsWindow.animate({ height: '100%', width: '100%', top: '0', left: '0' }, 250);
+            projectsWindow.css('position', 'fixed').animate({ height: '100vh', width: '100vw', top: '0', left: '0' }, 250);
 
         } else {
             // --- DESKTOP LOGIC (opens a new window) ---
@@ -152,7 +152,7 @@ $(document).ready(function() {
             titleBarText.text(originalProjectsTitle);
         }
         
-        projectsWindow.css({ height: 'auto', width: '', top: '', left: '' });
+        projectsWindow.css({ position: 'absolute', height: 'auto', width: '', top: '', left: '' });
     });
 
 

@@ -45,6 +45,7 @@ body {
     position: absolute !important;
     transition: transform 0.3s ease-in, opacity 0.25s ease-in;
     transform-origin: center;
+    box-sizing: border-box;
 }
 
 .window.active {
