@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('.window').not('#shutdown-overlay .window').hide();
     let highestZIndex = 100;
     let originalProjectsContent = null;
     let originalProjectsTitle = '';
@@ -104,7 +105,7 @@ $(document).ready(function() {
             }
             
             const newWindow = `
-            <div class="window" id="${windowId}" style="width: 850px; height: 800px; top: 100px; left: 200px;">
+            <div class="window" id="${windowId}" style="width: 80vw; height: 80vh; top: 10%; left: 10%;">
                 <div class="title-bar">
                     <div class="title-bar-text">${projectTitle}</div>
                     <div class="title-bar-controls">
