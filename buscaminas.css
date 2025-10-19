@@ -2,7 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Evita cualquier barra de scroll accidental */
+    overflow: hidden; 
 }
 
 body {
@@ -156,10 +156,6 @@ body {
         height: 10vw;
         font-size: 7vw;
         flex-shrink: 0;
-    }
-
-    .grid {
-        /* Se mantiene igual, ya que es adaptable */
     }
 
     .cell {
