@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const fadeElems = document.querySelectorAll('.fade-in');
 
     const observerOptions = {
-        root: null, 
+        root: null,
         rootMargin: '0px',
-        threshold: 0.1 
+        threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -25,11 +25,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
 
-            alert('Gracias por tu mensaje. Nos pondremos en contacto pronto.');
+
+            alert('Thank you for your message. We will get in touch soon.');
 
             this.reset();
         });

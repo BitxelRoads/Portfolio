@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('.window').not('#shutdown-overlay .window').hide();
     let highestZIndex = 100;
     let originalProjectsContent = null;
@@ -21,7 +21,7 @@ $(document).ready(function() {
         $(`.taskbar-tab[data-target="#${windowId}"]`).addClass('active');
     }
 
-    $('#desktop').on('click', '.window', function() {
+    $('#desktop').on('click', '.window', function () {
 
         if ($(this).closest('#shutdown-overlay').length) {
             return;
@@ -34,11 +34,11 @@ $(document).ready(function() {
         updateTaskbarActiveState(windowId);
     });
 
-    $('.desktop-icon').on('dblclick', function() {
+    $('.desktop-icon').on('dblclick', function () {
         const windowId = $(this).data('opens');
         const windowElement = $('#' + windowId);
         const title = $(this).data('title');
-        
+
         windowElement.show();
         createTaskbarTab(windowId, title);
         windowElement.click();
@@ -55,8 +55,8 @@ $(document).ready(function() {
             }
         }
     });
-    
-    $('#desktop').on('click', '.project-icon', function() {
+
+    $('#desktop').on('click', '.project-icon', function () {
         const projectIcon = $(this);
         const projectsWindow = projectIcon.closest('#window-proyectos');
 
@@ -76,20 +76,20 @@ $(document).ready(function() {
 
             const newProjectViewHTML = `
                 <div class="project-header" style="padding: 5px; background-color: #f0f0f0; border-bottom: 1px solid #ccc; text-align: left; flex-shrink: 0;">
-                    <button class="back-to-projects">&lt; Volver</button>
+                    <button class="back-to-projects">&lt; Back</button>
                 </div>
                 <div class="iframe-project-content">
                     <iframe src="${projectUrl}" frameborder="0"></iframe>
                 </div>
                 <div class="project-footer">
-                    <h4>Descripción</h4>
+                    <h4>Description</h4>
                     <p>${projectDescription}</p>
                 </div>
             `;
 
             titleBarText.text(projectTitle);
             windowBody.html(newProjectViewHTML).addClass('project-view-body');
-            
+
             projectsWindow.css('position', 'fixed').animate({ height: '100vh', width: '100vw', top: '0', left: '0' }, 250);
 
         } else {
@@ -103,7 +103,7 @@ $(document).ready(function() {
                 $('#' + windowId).show().click();
                 return;
             }
-            
+
             const newWindow = `
             <div class="window" id="${windowId}" style="width: 80vw; height: 90vh; top: 5%; left: 10%;">
                 <div class="title-bar">
@@ -119,22 +119,22 @@ $(document).ready(function() {
                         <iframe src="${projectUrl}" frameborder="0"></iframe>
                     </div>
                     <div class="project-footer">
-                        <h4>Descripción</h4>
+                        <h4>Description</h4>
                         <p>${projectDescription}</p>
                     </div>
                 </div>
             </div>`;
-            
+
             $('#desktop').append(newWindow);
             createTaskbarTab(windowId, projectTitle);
 
-            $('#' + windowId).draggable({ 
-                handle: '.title-bar', 
-                containment: '#desktop', 
-                stack: '.window', 
-                start: function() { $(this).click(); }
-            }).resizable({ 
-                minHeight: 400, 
+            $('#' + windowId).draggable({
+                handle: '.title-bar',
+                containment: '#desktop',
+                stack: '.window',
+                start: function () { $(this).click(); }
+            }).resizable({
+                minHeight: 400,
                 minWidth: 500
             });
 
@@ -143,7 +143,7 @@ $(document).ready(function() {
     });
 
     // This handler is for the mobile-only back button
-    $('#desktop').on('click', '.back-to-projects', function() {
+    $('#desktop').on('click', '.back-to-projects', function () {
         const projectsWindow = $(this).closest('#window-proyectos');
         const windowBody = projectsWindow.find('.window-body');
         const titleBarText = projectsWindow.find('.title-bar-text');
@@ -152,20 +152,20 @@ $(document).ready(function() {
             windowBody.html(originalProjectsContent).removeClass('project-view-body');
             titleBarText.text(originalProjectsTitle);
         }
-        
+
         projectsWindow.css({ position: 'absolute', height: 'auto', width: '', top: '', left: '' });
     });
 
 
-    $('#desktop').on('click', '.close-btn', function() {
+    $('#desktop').on('click', '.close-btn', function () {
         const window = $(this).closest('.window');
         const windowId = window.attr('id');
         window.hide();
         removeTaskbarTab(windowId);
     });
-    
 
-    $('#desktop').on('click', '.minimize-btn', function() {
+
+    $('#desktop').on('click', '.minimize-btn', function () {
         const window = $(this).closest('.window');
         const windowId = window.attr('id');
         const taskbarTab = $(`.taskbar-tab[data-target="#${windowId}"]`);
@@ -187,26 +187,26 @@ $(document).ready(function() {
         window.addClass('minimizing');
         $(`.taskbar-tab[data-target="#${windowId}"]`).removeClass('active');
 
-        setTimeout(function() {
+        setTimeout(function () {
             window.hide();
             window.removeClass('minimizing');
             window.css({ 'transform': '', 'opacity': '' });
-        }, 300); 
+        }, 300);
     });
 
-    $('#taskbar-tabs').on('click', '.taskbar-tab', function() {
+    $('#taskbar-tabs').on('click', '.taskbar-tab', function () {
         const windowId = $(this).data('target');
         const window = $(windowId);
 
         if (!window.is(':visible')) {
             window.show();
         }
-        
+
         window.click();
     });
 
 
-    $('#start-menu').on('click', '.menu-item', function() {
+    $('#start-menu').on('click', '.menu-item', function () {
         const windowId = $(this).data('opens');
         if (windowId) {
             const targetIcon = $(`.desktop-icon[data-opens="${windowId}"]`);
@@ -218,39 +218,39 @@ $(document).ready(function() {
     });
 
 
-    $('#start-menu').on('click', '.shutdown-btn', function() {
+    $('#start-menu').on('click', '.shutdown-btn', function () {
         $('#start-menu').hide();
         $('#shutdown-overlay').css('display', 'flex').hide().fadeIn(250);
     });
 
-    $('#close-shutdown-btn').on('click', function() {
+    $('#close-shutdown-btn').on('click', function () {
         $('#shutdown-overlay').fadeOut(250);
     });
 
-    $('#contact-form').on('submit', function(event) {
-        event.preventDefault(); 
+    $('#contact-form').on('submit', function (event) {
+        event.preventDefault();
 
         const form = $(this);
         const submitButton = $('#submit-btn');
         const statusDiv = $('#form-status');
-        const formData = form.serialize(); 
+        const formData = form.serialize();
         submitButton.prop('disabled', true);
-        statusDiv.text('Enviando...').removeClass('success error');
+        statusDiv.text('Sending...').removeClass('success error');
 
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
             data: formData,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function(response) {
+            success: function (response) {
 
-                statusDiv.text('¡Mensaje enviado! Gracias.').addClass('success');
+                statusDiv.text('Message sent! Thank you.').addClass('success');
 
                 form.find('input, textarea').prop('disabled', true);
             },
-            error: function() {
+            error: function () {
 
-                statusDiv.text('Error al enviar.').addClass('error');
+                statusDiv.text('Error sending.').addClass('error');
 
                 submitButton.prop('disabled', false);
             }
@@ -258,17 +258,17 @@ $(document).ready(function() {
     });
 
     $('.desktop-icon').draggable({ containment: '#desktop' });
-    $('.window').not('#shutdown-overlay .window').draggable({ 
-        handle: '.title-bar', 
-        containment: '#desktop', 
-        stack: '.window', 
-        start: function() { $(this).click(); }
-    }).resizable({ 
-        minHeight: 150, 
-        minWidth: 250 
+    $('.window').not('#shutdown-overlay .window').draggable({
+        handle: '.title-bar',
+        containment: '#desktop',
+        stack: '.window',
+        start: function () { $(this).click(); }
+    }).resizable({
+        minHeight: 150,
+        minWidth: 250
     });
 
-    $('.tab-bar').on('click', '.tab', function() {
+    $('.tab-bar').on('click', '.tab', function () {
         const targetId = $(this).data('target');
         $(this).addClass('active').siblings().removeClass('active');
         const content = $(this).closest('.window-body').find('.tab-content');
@@ -277,14 +277,14 @@ $(document).ready(function() {
 
     const startButton = $('#start-button');
     const startMenu = $('#start-menu');
-    startButton.on('click', function(event) { 
-        event.stopPropagation(); 
-        startMenu.toggle(); 
+    startButton.on('click', function (event) {
+        event.stopPropagation();
+        startMenu.toggle();
     });
-    $(document).on('click', function(event) { 
-        if (startMenu.is(':visible') && !startMenu.is(event.target) && startMenu.has(event.target).length === 0) { 
-            startMenu.hide(); 
-        } 
+    $(document).on('click', function (event) {
+        if (startMenu.is(':visible') && !startMenu.is(event.target) && startMenu.has(event.target).length === 0) {
+            startMenu.hide();
+        }
     });
 
     function updateClock() {
